@@ -1,0 +1,84 @@
+.haipt-ui {
+	margin: 0 0 10px;
+	padding: 10px;
+	background: #f9f9f9;
+	border: 1px solid #e0e0e0;
+	border-radius: 3px;
+}
+
+.haipt-ui p {
+	margin: 0 0 6px !important;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.haipt-row-label {
+	font-weight: 600;
+	min-width: 110px;
+	font-size: 12px;
+}
+
+/* Vendor checkboxes */
+.haipt-vendor-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+/* Tag count */
+#haipt-tag-count {
+	width: 72px;
+}
+
+/* Generate button row */
+.haipt-btn-row {
+	margin-top: 4px !important;
+}
+
+.haipt-status {
+	font-style: italic;
+	color: #646970;
+	font-size: 12px;
+}
+
+/* Output textarea label */
+.haipt-output-label {
+	margin-top: 8px !important;
+	font-size: 12px;
+}
+
+.haipt-clear {
+	color: #a00;
+	font-size: 11px;
+	text-decoration: none;
+}
+
+.haipt-clear:hover {
+	color: #d63638;
+	text-decoration: underline;
+}
+
+/* Output textarea */
+#haipt-tags-output {
+	width: 100%;
+	font-family: monospace;
+	font-size: 12px;
+	line-height: 1.6;
+	resize: vertical;
+	box-sizing: border-box;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	padding: 6px 8px;
+	background: #fff;
+	color: #1d2327;
+}
+
+#haipt-tags-output:focus {
+	border-color: #2271b1;
+	outline: none;
+	box-shadow: 0 0 0 1px #2271b1;
+}
