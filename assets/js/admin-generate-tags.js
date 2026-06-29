@@ -108,6 +108,27 @@
 			return labels.join( ', ' );
 		}
 
+		function getProductAttributes() {
+			var attrs = [];
+			$( '.woocommerce_attribute' ).each( function () {
+				var $row  = $( this );
+				var name  = $.trim( $row.find( 'input[name^="attribute_names"]' ).val() || '' );
+				if ( ! name ) return;
+				var values = [];
+				$row.find( 'select[name^="attribute_values"] option:selected' ).each( function () {
+					values.push( $.trim( $( this ).text() ) );
+				} );
+				if ( ! values.length ) {
+					var raw = $row.find( 'textarea[name^="attribute_values"]' ).val() || '';
+					if ( raw ) {
+						values = raw.split( '|' ).map( function ( v ) { return $.trim( v ); } ).filter( Boolean );
+					}
+				}
+				attrs.push( name + ( values.length ? ': ' + values.join( ', ' ) : '' ) );
+			} );
+			return attrs.join( ' | ' );
+		}
+
 		function getVendorSelections() {
 			var out = {};
 			$( '.haipt-vendor-cb' ).each( function () {
@@ -144,7 +165,8 @@
 					categories        : getCheckedCategories(),
 					sku               : $( '#_sku' ).val() || '',
 					regular_price     : $( '#_regular_price' ).val() || '',
-					product_type      : $( '#product-type' ).val() || ''
+					product_type      : $( '#product-type' ).val() || '',
+					attributes        : getProductAttributes()
 				},
 				getVendorSelections()
 			);

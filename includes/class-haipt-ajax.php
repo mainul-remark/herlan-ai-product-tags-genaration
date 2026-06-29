@@ -42,8 +42,9 @@ class HAIPT_Ajax {
 		$sku               = isset( $_POST['sku'] ) ? sanitize_text_field( wp_unslash( $_POST['sku'] ) ) : '';
 		$regular_price     = isset( $_POST['regular_price'] ) ? sanitize_text_field( wp_unslash( $_POST['regular_price'] ) ) : '';
 		$product_type      = isset( $_POST['product_type'] ) ? sanitize_text_field( wp_unslash( $_POST['product_type'] ) ) : '';
+		$attributes        = isset( $_POST['attributes'] ) ? sanitize_textarea_field( wp_unslash( $_POST['attributes'] ) ) : '';
 
-		$prompt = $this->build_prompt( $tag_count, $title, $short_description, $description, $categories, $sku, $regular_price, $product_type );
+		$prompt = $this->build_prompt( $tag_count, $title, $short_description, $description, $categories, $sku, $regular_price, $product_type, $attributes );
 		$result = $this->fetch_tags_from_all_vendors( $prompt, $tag_count, $vendor_selection );
 
 		if ( is_wp_error( $result ) ) {
@@ -53,14 +54,18 @@ class HAIPT_Ajax {
 		wp_send_json_success( array( 'tags' => $result ) );
 	}
 
-	private function build_prompt( $tag_count, $title, $short_description, $description, $categories, $sku, $regular_price, $product_type ) {
+	private function build_prompt( $tag_count, $title, $short_description, $description, $categories, $sku, $regular_price, $product_type, $attributes = '' ) {
 		$lines = array(
 			"Generate exactly {$tag_count} unique product tags/keywords for the following WooCommerce product.",
 			'',
+			'Note: Product information may contain typos, shorthand, informal or dialect words — interpret and normalize these to standard product terms.',
+			'',
 			'Include a diverse mix of:',
 			'- Direct product name and type keywords',
-			'- Synonyms and alternative names for the product',
-			'- Related product categories and variants a customer might search for',
+			'- Synonyms, alternative names, and semantically related terms',
+			'- Names of similar or competing brand products in the same category (e.g. if the product is "Lily Shampoo", also include tags like "sunsilk shampoo", "pantene shampoo", "dove shampoo" so cross-brand searches return this product)',
+			'- Related products, accessories, and complementary items customers also search for',
+			'- Related product categories and variants',
 			'- Common customer search phrases and buying intent keywords',
 			'- Feature, benefit, and specification keywords',
 			'',
@@ -75,6 +80,9 @@ class HAIPT_Ajax {
 		}
 		if ( '' !== $categories ) {
 			$lines[] = 'Categories: ' . $categories;
+		}
+		if ( '' !== $attributes ) {
+			$lines[] = 'Attributes: ' . $attributes;
 		}
 		if ( '' !== $sku ) {
 			$lines[] = 'SKU: ' . $sku;
@@ -232,7 +240,7 @@ class HAIPT_Ajax {
 				'messages'    => array(
 					array(
 						'role'    => 'system',
-						'content' => 'You are an e-commerce SEO assistant. Return ONLY a JSON array of strings — no other text, no markdown, no code fences.',
+						'content' => 'You are an e-commerce SEO assistant. Product info may contain typos, slang, or informal language — interpret and normalize to proper product terms. Generate diverse tags including synonyms, related terms, and names of similar/competing brand products in the same category. Return ONLY a JSON array of strings — no other text, no markdown, no code fences.',
 					),
 					array(
 						'role'    => 'user',
