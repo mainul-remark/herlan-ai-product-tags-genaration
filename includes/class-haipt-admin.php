@@ -8,6 +8,22 @@ class HAIPT_Admin {
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+	}
+
+	public function add_meta_box() {
+		add_meta_box(
+			'haipt-generator',
+			__( 'AI Tag Generator', 'herlan-ai-product-tags' ),
+			array( $this, 'render_meta_box' ),
+			'product',
+			'side',
+			'default'
+		);
+	}
+
+	public function render_meta_box() {
+		echo '<div id="haipt-generator-box"></div>';
 	}
 
 	public function enqueue_assets( $hook ) {

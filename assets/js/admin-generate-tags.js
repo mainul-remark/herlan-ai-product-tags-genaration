@@ -2,8 +2,8 @@
 	'use strict';
 
 	$( function () {
-		var $box = $( '#tagsdiv-product_tag' );
-		if ( ! $box.length || typeof HAIPT === 'undefined' ) return;
+		var $container = $( '#haipt-generator-box' );
+		if ( ! $container.length || typeof HAIPT === 'undefined' ) return;
 
 		// Hidden textarea WP reads on save (name="tax_input[product_tag]")
 		var $taxInput = $( '#tax-input-product_tag' );
@@ -73,8 +73,8 @@
 			}
 		} );
 
-		// ── Inject into metabox (before the default WP tag input row) ─
-		$box.find( '.jaxtag' ).before(
+		// ── Inject into our own metabox ────────────────────────────────
+		$container.append(
 			$( '<div class="haipt-ui"></div>' )
 				.append( $vendorRow )
 				.append( $countRow )
