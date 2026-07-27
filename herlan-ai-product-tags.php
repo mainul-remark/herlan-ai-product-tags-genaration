@@ -3,7 +3,7 @@
  * Plugin Name: Herlan AI Product Tags
  * Description: Generates WooCommerce product tags from the product title, descriptions and other product fields using Google AI Studio (Gemini).
  * Version: 1.1.0
- * Author: Herlan
+ * Author: Muhammad Ali
  * Text Domain: herlan-ai-product-tags
  */
 
